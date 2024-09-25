@@ -15,12 +15,12 @@ struct Appetizer: Decodable, Identifiable {
     let price: Double
     let imageURL: String
     let calories: Int
-    let protien: Int
+    let protein: Int
     let carbs: Int
 }
 
 
-struct AppetizerResponse {
+struct AppetizerResponse: Decodable {
     let request: [Appetizer]
 }
 
@@ -32,7 +32,7 @@ struct MockData {
                                            price: 9.99,
                                            imageURL: "",
                                            calories: 99,
-                                           protien: 99,
+                                           protein: 99,
                                            carbs: 99)
     
     static let appetizers = [sampleAppetizer, sampleAppetizer, sampleAppetizer, sampleAppetizer]
