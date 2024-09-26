@@ -10,12 +10,16 @@ import SwiftUI
 final class AppetizerListViewModel: ObservableObject {
     @Published var appetizers: [Appetizer] = []
     @Published var alertItem: AlertItem?
+    @Published var isLoading = false
     
     func getAppetizer() {
+        isLoading = true
         
         NetworkManager.shared.getAppetizers { result in
             // we used this because its run on background thread and make it to main thread we use DispatchQueue.main.async
             DispatchQueue.main.async {
+                
+                self.isLoading = false
                 switch result {
                     
                 case .success(let appetizers):
