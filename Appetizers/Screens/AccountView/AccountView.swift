@@ -8,30 +8,27 @@
 import SwiftUI
 
 struct AccountView: View {
-    @State private var firstName: String = ""
-    @State private var lasttName: String = ""
-    @State private var email: String = ""
-    @State private var birthdate = Date()
-    @State private var extraNapkins = false
-    @State private var frequentRefills = false
+    
+    @StateObject var viewModel = AccountViewModel()
+    
+    
     
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading) {
                 Form {
                     Section("Personal Info"){
-                        TextField("First Name", text: $firstName)
-                        TextField("Last Name", text: $lasttName)
-                        TextField("Email", text: $email)
+                        TextField("First Name", text: $viewModel.firstName)
+                        TextField("Last Name", text: $viewModel.lasttName)
+                        TextField("Email", text: $viewModel.email)
                             .keyboardType(.emailAddress)
                             .textInputAutocapitalization(.none)
                             .autocorrectionDisabled(true)
                         
-                        DatePicker("Birthday", selection: $birthdate, displayedComponents: .date)
+                        DatePicker("Birthday", selection: $viewModel.birthdate, displayedComponents: .date)
                         
                         
                         Button {
-                            print("Save")
+                            viewModel.saveChanges()
                         } label: {
                             Text("Save Changes")
                             //                            .foregroundStyle(Color(.brandPrimary))
@@ -39,15 +36,20 @@ struct AccountView: View {
                     } // personal info section
                     
                     Section("Requests") {
-                        Toggle("Extra Napkins", isOn: $extraNapkins)
+                        Toggle("Extra Napkins", isOn: $viewModel.extraNapkins)
                         
-                        Toggle("Frequent Refills", isOn: $frequentRefills)
+                        Toggle("Frequent Refills", isOn: $viewModel.frequentRefills)
                     }
                     .toggleStyle(SwitchToggleStyle(tint: .brandPrimaryy))
                     
                 }
                 .navigationTitle("🤣 Account")
-            }
+            
+        }
+        .alert(item: $viewModel.alertItem) { alertItem in
+            Alert(title: alertItem.title,
+                  message: alertItem.message,
+                  dismissButton: alertItem.dismissButton)
         }
     }
 }
