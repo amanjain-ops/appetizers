@@ -28,6 +28,7 @@ struct EmptyState: View {
                     .foregroundStyle(.secondary)
                     .padding()
             }
+            .offset(y: -50)
         }
         
     }
